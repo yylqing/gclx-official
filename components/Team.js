@@ -102,7 +102,7 @@ function Team() {
           variant="body1"
           gutterBottom
         >
-          我们是国产良心 NFT 项目，我们的项目成员均为真人并且拥有推特账号！
+          我们是国产辣条 NFT 项目，我们的项目成员均为真人并且拥有推特账号！
         </Typography>
 
         <TeamWrapper>

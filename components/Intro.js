@@ -73,7 +73,7 @@ function Intro() {
       id="intro"
     >
       <Head>
-        <h1>国产良心 NFT</h1>
+        <h1>国产辣条 NFT</h1>
         <MenuWrapper>
           <MenuItem elementId="intro">介绍</MenuItem>
           <MenuItem elementId="roadmap">发展路线</MenuItem>
@@ -93,7 +93,7 @@ function Intro() {
           variant="body1"
           gutterBottom
         >
-          尊贵且独一无二的限量 1000 份【国产良心】NFT，专为中国人准备！
+          尊贵且独一无二的限量 1000 份【国产辣条】NFT，专为中国人准备！
         </Typography>
         <Typography
           style={{

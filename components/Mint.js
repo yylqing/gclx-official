@@ -287,7 +287,7 @@ function MintSection() {
         铸造进度：{progress === null ? "请先连接钱包" : progress} / 1000，价格
         0.01 ETH 一个，每个钱包最多 2 个，每人每天 2 个钱包。
         <br />
-        今天，我们都是良心铸造人！
+        今天，我们都是辣条铸造人！
       </div>
     </div>
   );
@@ -320,7 +320,7 @@ function Mint() {
           variant="body1"
           gutterBottom
         >
-          您好我的朋友，有没有觉得这个国产良心 NFT
+          您好我的朋友，有没有觉得这个国产辣条 NFT
           项目网站跟别的项目不太一样？上面废话特别多，Mint
           的按钮和方法一直找不到？
         </Typography>
@@ -343,7 +343,7 @@ function Mint() {
           variant="body1"
           gutterBottom
         >
-          相信通过上面的资料，相信您已经充分了解了我们国产良心 NFT
+          相信通过上面的资料，相信您已经充分了解了我们国产辣条 NFT
           项目。在您做好充分的思想准备之后，可以选择点击下面铸造（Mint）按钮进行铸造。
         </Typography>
 
@@ -373,7 +373,7 @@ function Mint() {
           variant="body2"
           gutterBottom
         >
-          铸造成功之后，您可以选择加入国产良心 NFT
+          铸造成功之后，您可以选择加入国产辣条 NFT
           会员频道，不过项目团队不会在里面做管理或者组织什么事情。
           <br />
           为了节约时间，经过和 NextDAO 的沟通，我们将会员频道设立在了 NextDAO 的

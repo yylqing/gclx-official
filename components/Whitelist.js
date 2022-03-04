@@ -33,7 +33,7 @@ function Whitelist() {
           variant="body1"
           gutterBottom
         >
-          您好我的朋友，我们是国产良心 NFT，为了节约您宝贵的时间并且减少 Discord
+          您好我的朋友，我们是国产辣条 NFT，为了节约您宝贵的时间并且减少 Discord
           公司的运营成本和环境污染，我们艰难决定：
           <strong>不设置 Discord 和白名单</strong>。
         </Typography>
@@ -64,7 +64,7 @@ function Whitelist() {
           <strong>我们将按照铸造价格为您铸造</strong>，不会多收钱。
         </Typography>
         <Typography style={{ marginBottom: 20 }} variant="body1" gutterBottom>
-          3. 我们是国产良心 NFT 项目，我们<strong>并不需要您会画画</strong>
+          3. 我们是国产辣条 NFT 项目，我们<strong>并不需要您会画画</strong>
           才能参与购买本项目。
         </Typography>
         <Typography style={{ marginBottom: 20 }} variant="body1" gutterBottom>
@@ -98,7 +98,7 @@ function Whitelist() {
           哦，我的朋友，您是否知道科学家也是人，他们也有家庭和孩子！
         </Typography>
         <Typography style={{ marginBottom: 20 }} variant="body1" gutterBottom>
-          因为我们是国产良心 NFT
+          因为我们是国产辣条 NFT
           项目，我们决定对科学家一视同仁。主要有以下几个原因：
         </Typography>
         <Typography style={{ marginBottom: 20 }} variant="body1" gutterBottom>

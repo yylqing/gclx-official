@@ -53,7 +53,7 @@ function Summary() {
         >
           真心
         </span>
-        希望这个国产良心 NFT 项目，是未来国产项目的地板水平。
+        希望这个国产辣条 NFT 项目，是未来国产项目的地板水平。
       </Typography>
       <Dialog fullScreen open={open} TransitionComponent={Transition}>
         <Head>
@@ -80,7 +80,7 @@ function Summary() {
           <Typography style={{ marginBottom: 20 }}>
             最近的国产项目出来的各种新闻可是真不少，NFT 项目也大部分下跌，还有
             OpenDAO、721 贪污、诈骗各种吃瓜等等。不过
-            <strong>让我直接破防的还是阿狸项目</strong>，也是此国产良心 NFT
+            <strong>让我直接破防的还是阿狸项目</strong>，也是此国产辣条 NFT
             项目产生的直接导火索。
           </Typography>
           <Typography style={{ marginBottom: 20 }}>
@@ -163,7 +163,7 @@ function Summary() {
             <br />- 图片素材：TBA
           </Typography>
           <Typography style={{ marginBottom: 20 }}>
-            我们希望【国产良心】NFT
+            我们希望【国产辣条】NFT
             项目的技术和体验变成未来国产项目的地板。最差最差，您可以直接 copy
             改改文案就可以上线了，求求您别用 ThinkPHP
             了！我们也完全理解项目方可能很难摸清楚技术外包的水平，所以您在找项目技术外包的时候，也可以将此源代码作为最差最差的水平去衡量对方的水平。
@@ -197,7 +197,7 @@ function Summary() {
             不是什么知名艺术家，但是我还是很喜欢她的这个作品，所以我自己可能会从义乌定点周边，自己用或者送朋友了。
           </Typography>
           <Typography style={{ marginBottom: 20 }}>
-            2. 持有者将有权限<strong>进入 NextDAO 的国产良心 NFT 频道</strong>
+            2. 持有者将有权限<strong>进入 NextDAO 的国产辣条 NFT 频道</strong>
             。我们其实也不知道谁会买，会进来这个频道，至于频道里面会聊什么以及后续的发展，顺其自然吧。项目组将不会管理或者干涉，所有后续大家自己讨论投票吧。
           </Typography>
           <Typography style={{ marginBottom: 20 }}>

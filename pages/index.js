@@ -8,13 +8,14 @@ import Team from "../components/Team";
 import FAQ from "../components/FAQ";
 import Mint from "../components/Mint";
 import Summary from "../components/Summary";
+import Commect from "../components/Comment";
 
 export default function Home() {
   useEffect(() => {
     if (window.console) {
       console.log("%c您好，科学家！", "font-size: 20px;font-weight:bold;");
       console.log(
-        "%c没什么别的意思，就是想提醒您，我们是国产良心 NFT 项目，您无需费劲的查看编译后的代码，我们已经开源了。",
+        "%c没什么别的意思，就是想提醒您，我们是国产辣条 NFT 项目，您无需费劲的查看编译后的代码，我们已经开源了。",
         "font-size: 20px;"
       );
       console.log(
@@ -27,7 +28,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>国产良心 NFT - 全宇宙限量 1000 的中国国产良心 NFT！</title>
+        <title>国产辣条 NFT - 全宇宙限量 1000 的中国国产辣条 NFT！</title>
         <meta name="description" content="中国人不骗中国人，放心！" />
         <link rel="icon" href="/favicon.png" />
 
@@ -54,9 +55,10 @@ export default function Home() {
       <Roadmap />
       <Whitelist />
       <FAQ />
-      <Team />
+      {/* <Team /> */}
       <Mint />
-      <Summary />
+      {/* <Summary /> */}
+      <Commect />
     </div>
   );
 }

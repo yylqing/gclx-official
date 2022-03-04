@@ -49,7 +49,7 @@ function FAQ() {
           <AccordionDetails>
             <Typography variant="body2">
               没啥卵用，就是个头像。购买之后您将拥有对您持有 NFT
-              的无限使用权，对，就是那个{" "}
+              的无限使用权，对，就是跟 BAYC 一样的那个{" "}
               <a
                 href="https://creativecommons.org/share-your-work/public-domain/cc0/"
                 target="_blank"
@@ -98,7 +98,7 @@ function FAQ() {
           <AccordionDetails>
             <Typography variant="body2">
               技术上我们是搞不定的，所以只能通过道德绑架的方式。
-              <strong>今天，我们都是良心铸造人！</strong>
+              <strong>今天，我们都是辣条铸造人！</strong>
             </Typography>
           </AccordionDetails>
         </Accordion>
@@ -138,7 +138,7 @@ function FAQ() {
             </Typography>
             <Typography variant="body2">
               3. 成为持有者之后，
-              <strong>您将有义务挖掘和扶持国产良心 NFT 项目</strong>
+              <strong>您将有义务挖掘和扶持国产辣条 NFT 项目</strong>
               、粉碎国产垃圾、曝光和传播客观信息和内幕、帮助新韭菜提升自己。DHD！
             </Typography>
           </AccordionDetails>
@@ -150,7 +150,7 @@ function FAQ() {
           <AccordionDetails>
             <Typography variant="body2">
               不会。这将会是 Fair
-              Launch（就是公平发射的意思）。项目成员没有任何保留，将参与公售，不会利用任何内幕进行交易，严格遵循良心铸造人的行为准则。
+              Launch（就是公平发射的意思）。项目成员没有任何保留，将参与公售，不会利用任何内幕进行交易，严格遵循辣条铸造人的行为准则。
             </Typography>
           </AccordionDetails>
         </Accordion>
