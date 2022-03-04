@@ -88,10 +88,6 @@ export default class Comment extends PureComponent {
                 </Typography>
                 <Content style={{ padding: "5px" }}>
                     <div ref={this._commentRef} />
-                    <span id="/" class="leancloud_visitors" data-flag-title="Your Article Title" style={{ padding: "5px" }}>
-                        <em class="post-meta-item-text">访问数 </em>
-                        <i class="leancloud-visitors-count">1000000</i>
-                    </span>
                 </Content>
             </Container>
         )
