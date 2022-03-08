@@ -38,6 +38,8 @@ const StyledMintButton = styled.div`
   }};
 `;
 
+let miaoShu;
+
 function MintButton(props) {
   const [minting, setMinting] = useState(false);
 
@@ -51,14 +53,20 @@ function MintButton(props) {
         }
         setMinting(true);
         try {
+          if (!miaoShu) {
+            showMessage({
+              type: "error",
+              title: "请告诉我们你想要画什么？",
+              body: "请告诉我们你想要画什么？",
+            });
+            setMinting(false);
+            return;
+          }
           const { signer, contract } = await connectWallet();
           const contractWithSigner = contract.connect(signer);
           console.log(contract)
-          const value = ethers.utils.maiHua(
-            // props.mintAmount === 1 ? "0.01" : "0.02"
-            props.mintAmount = "0.1"
-          );
-          const tx = await contractWithSigner.mint(props.mintAmount, {
+          const value = ethers.utils.parseEther("0.1");
+          const tx = await contractWithSigner.maiHua(miaoShu, {
             value,
           });
           const response = await tx.wait();
@@ -86,6 +94,7 @@ function MintButton(props) {
               </div>
             ),
           });
+          miaoShu = ''
         } catch (err) {
           showMessage({
             type: "error",
@@ -101,7 +110,7 @@ function MintButton(props) {
         ...props.style,
       }}
     >
-      铸造 {props.mintAmount} 个{minting ? "中..." : ""}
+      铸造 1 个{minting ? "中..." : ""}
     </StyledMintButton>
   );
 }
@@ -110,7 +119,6 @@ function MintSection() {
   const [status, setStatus] = useState("0");
   const [progress, setProgress] = useState(null);
   const [fullAddress, setFullAddress] = useState(null);
-  const [numberMinted, setNumberMinted] = useState(0);
 
   async function updateStatus() {
     const { contract } = await connectWallet();
@@ -132,8 +140,6 @@ function MintSection() {
       const fullAddressInStore = get("fullAddress") || null;
       if (fullAddressInStore) {
         const { contract } = await connectWallet();
-        // const numberMinted = await contract.numberMinted(fullAddressInStore);
-        // setNumberMinted(parseInt(numberMinted));
         setFullAddress(fullAddressInStore);
       }
       subscribe("fullAddress", async () => {
@@ -141,8 +147,6 @@ function MintSection() {
         setFullAddress(fullAddressInStore);
         if (fullAddressInStore) {
           const { contract } = await connectWallet();
-          // const numberMinted = await contract.numberMinted(fullAddressInStore);
-          // setNumberMinted(parseInt(numberMinted));
           updateStatus();
         }
       });
@@ -166,8 +170,6 @@ function MintSection() {
 
   async function refreshStatus() {
     const { contract } = await connectWallet();
-    const numberMinted = await contract.numberMinted(fullAddress);
-    setNumberMinted(parseInt(numberMinted));
   }
 
   let mintButton = (
@@ -182,7 +184,6 @@ function MintSection() {
     </StyledMintButton>
   );
 
-  console.log(progress, status === "1", numberMinted)
   if (status === "1") {
     mintButton = (
       <div
@@ -191,15 +192,12 @@ function MintSection() {
         }}
       >
         <MintButton
-          onMinted={refreshStatus}
+          onMinted={updateStatus}
           mintAmount={1}
           style={{ marginRight: "20px" }}
         />
-        <MintButton
-          onMinted={refreshStatus}
-          mintAmount={2}
-          disabled={numberMinted === 1}
-        />
+        <input style={{ borderRadius: "20px", width: "500px" }} type="text" onChange={(e) => inputChange(e)} placeholder="请告诉我们，你想要什么样的画" />
+
       </div>
     );
   }
@@ -217,18 +215,11 @@ function MintSection() {
     );
   }
 
-  if (numberMinted === 2) {
-    mintButton = (
-      <StyledMintButton
-        style={{
-          background: "#eee",
-          color: "#999",
-          cursor: "not-allowed",
-        }}
-      >
-        铸造已达上限
-      </StyledMintButton>
-    );
+  function inputChange(e) {
+    //获取dom节点元素
+    //1.添加ref属性
+    //2.使用this.refs.username获取dom节点
+    miaoShu = e.target.value;
   }
 
   if (!fullAddress) {
@@ -245,17 +236,6 @@ function MintSection() {
     );
   }
 
-  mintButton = (
-    <StyledMintButton
-      style={{
-        background: "#eee",
-        color: "#999",
-        cursor: "not-allowed",
-      }}
-    >
-      全部卖完了
-    </StyledMintButton>
-  );
 
   return (
     <div
@@ -267,29 +247,14 @@ function MintSection() {
     >
       <div style={{ marginBottom: 20, display: "flex", alignItems: "center" }}>
         您的钱包： <ConnectWallet />{" "}
-        {fullAddress && (
-          <span style={{ marginLeft: 10 }}>
-            可以铸造 {2 - numberMinted} 个。
-          </span>
-        )}
       </div>
       {mintButton}
-      <div style={{ marginTop: 10 }}>
-        请移步在{" "}
-        <a
-          href="https://opensea.io/collection/gclx"
-          target="_blank"
-          rel="noreferrer"
-        >
-          OpenSea
-        </a>{" "}
-        上查看。
-      </div>
+
       <div style={{ marginTop: 20, fontSize: 20, textAlign: "center" }}>
         铸造进度：{progress === null ? "请先连接钱包" : progress} / 1000，价格
-        0.01 ETH 一个，每个钱包最多 2 个，每人每天 2 个钱包。
+        0.01 BNB 一个。
         <br />
-        今天，我们都是辣条铸造人！
+        今天，我们是国产画家！
       </div>
     </div>
   );

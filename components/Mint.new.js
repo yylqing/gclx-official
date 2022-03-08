@@ -13,6 +13,7 @@ const contractABI = HuaJiaContractABI;
 
 let contract;
 let web3;
+let miaoShu;
 
 
 const ETHERSCAN_DOMAIN =
@@ -65,40 +66,48 @@ function MintButton(props) {
         }
         setMinting(true);
         try {
-          const miaoShu = '我真帅';
-          const value = 0.1;
-          const BN = web3.utils.BN
-          const amount = new BN(web3.utils.toWei(value.toString(), 'ether'))
-          contract.methods.maiHua(miaoShu).send({
-            from: get('fullAddress'),
-            value: amount, 
-            gas: 3000000
-          }, function (error, result) {
-            if (!error) {
-              showMessage({
-                type: "success",
-                title: "铸造成功",
-                body: (
-                  <div>
-                    <a
-                      href={`https://www.oklink.com/zh-cn/oec-test/tx/${result}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      点击查看交易详情
-                    </a>{" "}
-                  </div>
-                ),
-              });
-              return
-            } else {
-              showMessage({
-                type: "error",
-                title: "铸造失败",
-                body: error,
-              });
-            }
-          })
+          if (!miaoShu) {
+            showMessage({
+              type: "error",
+              title: "请告诉我们你想要画什么？",
+              body: "请告诉我们你想要画什么？",
+            });
+          } else {
+            const value = 0.1;
+            const BN = web3.utils.BN
+            const amount = new BN(web3.utils.toWei(value.toString(), 'ether'))
+            contract.methods.maiHua(miaoShu).send({
+              from: get('fullAddress'),
+              value: amount,
+              gas: 3000000
+            }, function (error, result) {
+              if (!error) {
+                showMessage({
+                  type: "success",
+                  title: "铸造成功",
+                  body: (
+                    <div>
+                      <a
+                        href={`https://www.oklink.com/zh-cn/oec-test/tx/${result}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        点击查看交易详情
+                      </a>{" "}
+                    </div>
+                  ),
+                });
+                return
+              } else {
+                showMessage({
+                  type: "error",
+                  title: "铸造失败",
+                  body: error,
+                });
+              }
+            })
+          }
+
 
         } catch (err) {
           showMessage({
@@ -203,9 +212,18 @@ function MintSection() {
           mintAmount={1}
           style={{ marginRight: "20px" }}
         />
-        <input placeholder="请告诉我们，你想要什么样的画" />
+        <input style={{ borderRadius: "20px", width: "500px" }} type="text" onChange={(e) => inputChange(e)} placeholder="请告诉我们，你想要什么样的画" />
+
+
       </div>
     );
+  }
+
+  function inputChange(e) {
+    //获取dom节点元素
+    //1.添加ref属性
+    //2.使用this.refs.username获取dom节点
+    miaoShu = e.target.value;
   }
 
   if (progress >= 1000 || status === "2") {
@@ -250,22 +268,12 @@ function MintSection() {
         您的钱包： <ConnectWallet />{" "}
       </div>
       {mintButton}
-      <div style={{ marginTop: 10 }}>
-        请移步在{" "}
-        <a
-          href="https://opensea.io/collection/gclx"
-          target="_blank"
-          rel="noreferrer"
-        >
-          OpenSea
-        </a>{" "}
-        上查看。
-      </div>
+
       <div style={{ marginTop: 20, fontSize: 20, textAlign: "center" }}>
         铸造进度：{progress === null ? "请先连接钱包" : progress} / 1000，价格
         0.01 BNB 一个。
         <br />
-        今天，我们都是良心铸造人！
+        今天，我们是国产画家！
       </div>
     </div>
   );

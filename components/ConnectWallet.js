@@ -24,11 +24,11 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider,
     options: {
-      network: "OKex-test",
+      network: NETWORK,
       rpc: {
-        65: "https://exchaintestrpc.okex.org"
+        CHAIN_ID: "https://exchaintestrpc.okex.org"
       },
-      chainId: 65,
+      chainId: CHAIN_ID,
     }
   }
 }
