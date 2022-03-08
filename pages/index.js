@@ -15,11 +15,15 @@ export default function Home() {
     if (window.console) {
       console.log("%c您好，科学家！", "font-size: 20px;font-weight:bold;");
       console.log(
-        "%c没什么别的意思，就是想提醒您，我们是国产辣条 NFT 项目，您无需费劲的查看编译后的代码，我们已经开源了。",
+        "%c没什么别的意思，就是想提醒您，项目来自国产良心NFT开源项目，您无需费劲的查看编译后的代码。",
         "font-size: 20px;"
       );
       console.log(
         "%c网站开源地址：https://github.com/brucexu-eth/gclx-official",
+        "font-size: 20px;"
+      );
+      console.log(
+        "%c特别感谢国产良心NFT项目组的开源！",
         "font-size: 20px;"
       );
     }
@@ -28,7 +32,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>国产辣条 NFT - 全宇宙限量 1000 的中国国产辣条 NFT！</title>
+        <title>国产画家 NFT - 全宇宙不限量的国产随性画画 NFT！</title>
         <meta name="description" content="中国人不骗中国人，放心！" />
         <link rel="icon" href="/favicon.png" />
 

@@ -73,7 +73,7 @@ function Intro() {
       id="intro"
     >
       <Head>
-        <h1>国产辣条 NFT</h1>
+        <h1>国产画家 NFT</h1>
         <MenuWrapper>
           <MenuItem elementId="intro">介绍</MenuItem>
           <MenuItem elementId="roadmap">发展路线</MenuItem>
@@ -93,7 +93,39 @@ function Intro() {
           variant="body1"
           gutterBottom
         >
-          尊贵且独一无二的限量 1000 份【国产辣条】NFT，专为中国人准备！
+          尊贵且独一无二不限量不重复【国产画家】亲手画出来的NFT，专为中国人准备！
+        </Typography>
+        <Typography
+          style={{
+            marginTop: "2%",
+          }}
+          variant="body1"
+          color="red"
+          gutterBottom
+        >
+          不是算法生成，全是手工画！
+        </Typography>
+        <Typography
+          variant="body1"
+          color="red"
+          gutterBottom
+        >
+          不是算法生成，全是手工画！
+        </Typography>
+        <Typography
+          variant="body1"
+          color="red"
+          gutterBottom
+        >
+          不是算法生成，全是手工画！
+        </Typography>
+        <Typography
+          variant="body3"
+          gutterBottom
+        >
+          
+         重要的事情说三遍
+          
         </Typography>
         <Typography
           style={{
@@ -102,11 +134,8 @@ function Intro() {
           variant="body1"
           gutterBottom
         >
-          请放心参与，咱中国人不骗中国人{" "}
-          <img
-            style={{ width: 36, position: "relative", top: 5 }}
-            src="/icons/doge.png"
-          />
+           <span style={{ textDecoration: "line-through" }}>快别参加了，别来当韭菜！</span>
+          {"  "}放心参加，我拿肝出来画
         </Typography>
         <div
           style={{
@@ -160,7 +189,7 @@ function Intro() {
             </a>
           </Tooltip>
         </div>
-        <Typography
+        {/* <Typography
           style={{
             marginTop: "5%",
             textAlign: "center",
@@ -172,7 +201,7 @@ function Intro() {
         >
           我们不与国际接轨。We DO NOT provide an English version for English
           speakers, please consider learning Chinese or using Google Translate.
-        </Typography>
+        </Typography> */}
       </Content>
     </Container>
   );

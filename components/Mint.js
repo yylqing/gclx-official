@@ -180,7 +180,7 @@ function MintSection() {
         cursor: "not-allowed",
       }}
     >
-      尚未开始
+      切换到BSC链
     </StyledMintButton>
   );
 
