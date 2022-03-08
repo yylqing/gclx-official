@@ -2,20 +2,34 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ethers } from "ethers";
 import Typography from "@mui/material/Typography";
-
+import Web3 from 'web3';
 import { get, subscribe } from "../store";
 import Container from "./Container";
 import ConnectWallet, { connectWallet } from "./ConnectWallet";
 import showMessage from "./showMessage";
+import HuaJiaContractABI from "../abi/huajia.json";
+
+const contractABI = HuaJiaContractABI;
+
+let contract;
+let web3;
+
 
 const ETHERSCAN_DOMAIN =
-  process.env.NEXT_PUBLIC_CHAIN_ID === "65"
-    ? "www.oklink.com/zh-cn/oec-test"
-    : "bscscan.com";
+  process.env.NEXT_PUBLIC_CHAIN_ID === "1"
+    ? "etherscan.io"
+    : "rinkeby.etherscan.io";
 
 const Content = styled.div`
   max-width: 840px;
   margin: 0 auto 5% auto;
+  strong {
+    color: red;
+  }
+`;
+
+const MintInput = styled.div`
+  max-width: 40px;
   strong {
     color: red;
   }
@@ -51,41 +65,41 @@ function MintButton(props) {
         }
         setMinting(true);
         try {
-          const { signer, contract } = await connectWallet();
-          const contractWithSigner = contract.connect(signer);
-          console.log(contract)
-          const value = ethers.utils.maiHua(
-            // props.mintAmount === 1 ? "0.01" : "0.02"
-            props.mintAmount = "0.1"
-          );
-          const tx = await contractWithSigner.mint(props.mintAmount, {
-            value,
-          });
-          const response = await tx.wait();
-          showMessage({
-            type: "success",
-            title: "铸造成功",
-            body: (
-              <div>
-                <a
-                  href={`https://${ETHERSCAN_DOMAIN}/tx/${response.transactionHash}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  点击查看交易详情
-                </a>{" "}
-                或者到{" "}
-                <a
-                  href="https://opensea.io/account"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  OpenSea 查看
-                </a>
-                。
-              </div>
-            ),
-          });
+          const miaoShu = '我真帅';
+          const value = 0.1;
+          const BN = web3.utils.BN
+          const amount = new BN(web3.utils.toWei(value.toString(), 'ether'))
+          contract.methods.maiHua(miaoShu).send({
+            from: get('fullAddress'),
+            value: amount, 
+            gas: 3000000
+          }, function (error, result) {
+            if (!error) {
+              showMessage({
+                type: "success",
+                title: "铸造成功",
+                body: (
+                  <div>
+                    <a
+                      href={`https://www.oklink.com/zh-cn/oec-test/tx/${result}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      点击查看交易详情
+                    </a>{" "}
+                  </div>
+                ),
+              });
+              return
+            } else {
+              showMessage({
+                type: "error",
+                title: "铸造失败",
+                body: error,
+              });
+            }
+          })
+
         } catch (err) {
           showMessage({
             type: "error",
@@ -113,9 +127,13 @@ function MintSection() {
   const [numberMinted, setNumberMinted] = useState(0);
 
   async function updateStatus() {
-    const { contract } = await connectWallet();
-    const status = 1;
-    const progress = parseInt(await contract.totalSupply());
+    // const { contract } = await connectWallet();
+    web3 = new Web3(window.ethereum)
+    contract = new web3.eth.Contract(contractABI.abi, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS)
+    const status = 1
+    console.log(13)
+    const progress = await contract.methods.totalSupply().call();
+    console.log(progress)
     setStatus(status.toString());
     setProgress(progress);
     // 在 mint 事件的时候更新数据
@@ -131,18 +149,12 @@ function MintSection() {
     (async () => {
       const fullAddressInStore = get("fullAddress") || null;
       if (fullAddressInStore) {
-        const { contract } = await connectWallet();
-        // const numberMinted = await contract.numberMinted(fullAddressInStore);
-        // setNumberMinted(parseInt(numberMinted));
         setFullAddress(fullAddressInStore);
       }
       subscribe("fullAddress", async () => {
         const fullAddressInStore = get("fullAddress") || null;
         setFullAddress(fullAddressInStore);
         if (fullAddressInStore) {
-          const { contract } = await connectWallet();
-          // const numberMinted = await contract.numberMinted(fullAddressInStore);
-          // setNumberMinted(parseInt(numberMinted));
           updateStatus();
         }
       });
@@ -166,8 +178,6 @@ function MintSection() {
 
   async function refreshStatus() {
     const { contract } = await connectWallet();
-    const numberMinted = await contract.numberMinted(fullAddress);
-    setNumberMinted(parseInt(numberMinted));
   }
 
   let mintButton = (
@@ -181,8 +191,6 @@ function MintSection() {
       尚未开始
     </StyledMintButton>
   );
-
-  console.log(progress, status === "1", numberMinted)
   if (status === "1") {
     mintButton = (
       <div
@@ -195,14 +203,11 @@ function MintSection() {
           mintAmount={1}
           style={{ marginRight: "20px" }}
         />
-        <MintButton
-          onMinted={refreshStatus}
-          mintAmount={2}
-          disabled={numberMinted === 1}
-        />
+        <input placeholder="请告诉我们，你想要什么样的画" />
       </div>
     );
   }
+
   if (progress >= 1000 || status === "2") {
     mintButton = (
       <StyledMintButton
@@ -217,19 +222,7 @@ function MintSection() {
     );
   }
 
-  if (numberMinted === 2) {
-    mintButton = (
-      <StyledMintButton
-        style={{
-          background: "#eee",
-          color: "#999",
-          cursor: "not-allowed",
-        }}
-      >
-        铸造已达上限
-      </StyledMintButton>
-    );
-  }
+
 
   if (!fullAddress) {
     mintButton = (
@@ -245,18 +238,6 @@ function MintSection() {
     );
   }
 
-  mintButton = (
-    <StyledMintButton
-      style={{
-        background: "#eee",
-        color: "#999",
-        cursor: "not-allowed",
-      }}
-    >
-      全部卖完了
-    </StyledMintButton>
-  );
-
   return (
     <div
       style={{
@@ -267,11 +248,6 @@ function MintSection() {
     >
       <div style={{ marginBottom: 20, display: "flex", alignItems: "center" }}>
         您的钱包： <ConnectWallet />{" "}
-        {fullAddress && (
-          <span style={{ marginLeft: 10 }}>
-            可以铸造 {2 - numberMinted} 个。
-          </span>
-        )}
       </div>
       {mintButton}
       <div style={{ marginTop: 10 }}>
@@ -287,9 +263,9 @@ function MintSection() {
       </div>
       <div style={{ marginTop: 20, fontSize: 20, textAlign: "center" }}>
         铸造进度：{progress === null ? "请先连接钱包" : progress} / 1000，价格
-        0.01 ETH 一个，每个钱包最多 2 个，每人每天 2 个钱包。
+        0.01 BNB 一个。
         <br />
-        今天，我们都是辣条铸造人！
+        今天，我们都是良心铸造人！
       </div>
     </div>
   );
@@ -322,7 +298,7 @@ function Mint() {
           variant="body1"
           gutterBottom
         >
-          您好我的朋友，有没有觉得这个国产辣条 NFT
+          您好我的朋友，有没有觉得这个国产良心 NFT
           项目网站跟别的项目不太一样？上面废话特别多，Mint
           的按钮和方法一直找不到？
         </Typography>
@@ -345,7 +321,7 @@ function Mint() {
           variant="body1"
           gutterBottom
         >
-          相信通过上面的资料，相信您已经充分了解了我们国产辣条 NFT
+          相信通过上面的资料，相信您已经充分了解了我们国产良心 NFT
           项目。在您做好充分的思想准备之后，可以选择点击下面铸造（Mint）按钮进行铸造。
         </Typography>
 
@@ -375,7 +351,7 @@ function Mint() {
           variant="body2"
           gutterBottom
         >
-          铸造成功之后，您可以选择加入国产辣条 NFT
+          铸造成功之后，您可以选择加入国产良心 NFT
           会员频道，不过项目团队不会在里面做管理或者组织什么事情。
           <br />
           为了节约时间，经过和 NextDAO 的沟通，我们将会员频道设立在了 NextDAO 的

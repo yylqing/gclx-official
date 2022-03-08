@@ -4,72 +4,60 @@ import { ethers } from "ethers";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Chip from "@mui/material/Chip";
-
+import Web3 from 'web3';
 import showMessage from "./showMessage";
 import { set, get, subscribe } from "../store";
 import { formatAddress, padWidth } from "../utils";
-// import RinkebyContractABI from "../abi/rinkeby.json";
-// import MainnetContractABI from "../abi/mainnet.json";
-
-import MaiHuaABI from "../abi/huajia.json"
+import HuaJiaContractABI from "../abi/huajia.json";
 
 // const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 // const NETWORK = CHAIN_ID === "1" ? "mainnet" : "rinkeby";
-// const contractABI = CHAIN_ID === "1" ? MainnetContractABI : RinkebyContractABI;
-const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
-const NETWORK = process.env.NEXT_PUBLIC_NETWORK;
-const contractABI = MaiHuaABI;
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      network: "OKex-test",
-      rpc: {
-        65: "https://exchaintestrpc.okex.org"
-      },
-      chainId: 65,
-    }
-  }
-}
+const contractABI = HuaJiaContractABI;
 
 
-let web3ModelInstance;
-if (typeof window !== "undefined") {
-  web3ModelInstance = new Web3Modal({
-    cacheProvider: true,
-    providerOptions,
-  });
-}
-
-let provider;
-let signer;
-let instance;
 let contract;
+let web3;
 
 export async function connectWallet() {
-  if (!instance) {
-    instance = await web3ModelInstance.connect();
-    // https://docs.ethers.io/v5/api/providers/
-    provider = new ethers.providers.Web3Provider(instance);
-    // https://docs.ethers.io/v5/api/signer/
-    signer = provider.getSigner();
-    contract = new ethers.Contract(
-      process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
-      // 大哥，注意 ABI 的大小写 👻
-      contractABI.abi,
-      provider
-    );
-  }
-  return { provider, signer, web3Instance: instance, contract };
+	let add = "";
+	if (typeof window.ethereum === "undefined") {
+		//没安装MetaMask钱包进行弹框提示
+		showMessage({
+		  type: "error",
+		  title: "你还没装小狐狸呢！",
+		  body: err.message,
+		});
+		window.open("https://metamask.io/");
+	} else {
+		//如果用户安装了MetaMask，你可以要求他们授权应用登录并获取其账号
+		await window.ethereum.enable()
+			.catch(function(reason) {
+				//如果用户拒绝了登录请求
+				if (reason === "User rejected provider access") {
+					// 用户拒绝登录后执行语句；
+					showMessage({
+					  type: "error",
+					  title: "你拒绝授权应用登陆",
+					  body: err.message,
+					});
+				} else {
+					// 本不该执行到这里，但是真到这里了，说明发生了意外
+					showMessage({
+					  type: "error",
+					  title: "可能发生了什么意外！",
+					  body: err.message,
+					});
+				}
+			}).then(function(accounts) {
+				add = accounts[0]
+			});
+		}
+		
+		console.log(add)
+		return add
 }
 
 async function disconnectWallet() {
-  provider = undefined;
-  signer = undefined;
-  instance = undefined;
-  contract = undefined;
-  await web3ModelInstance.clearCachedProvider();
 }
 
 const NoCollectWallet = styled.div`
@@ -106,7 +94,7 @@ function ConnectWallet(props) {
         label={address}
         color="primary"
         onDelete={async () => {
-          await disconnectWallet();
+          // await disconnectWallet();
           setAddress(null);
           set("address", "");
           set("fullAddress", "");
@@ -118,32 +106,17 @@ function ConnectWallet(props) {
   return (
     <div style={{ position: "relative" }}>
       <Chip
-        style={{ fontSize: 16 }}
+        style={{ fontSize: 16 }} 
         label={loading ? "连接中..." : "连接钱包"}
         color="primary"
         onClick={async () => {
           setLoading(true);
           try {
-            const { provider, signer, web3Instance } = await connectWallet();
-            const address = await signer.getAddress();
-            // const ens = await provider.lookupAddress(address);
-            const ens = null
-            setAddress(ens || formatAddress(address));
-            set("address", ens || formatAddress(address));
+            const address = await connectWallet();
+			console.log(address)
+            setAddress(formatAddress(address));
+            set("address", formatAddress(address));
             set("fullAddress", address);
-            web3Instance.on("accountsChanged", async (accounts) => {
-              if (accounts.length === 0) {
-                await disconnectWallet();
-                set("address", "");
-                set("fullAddress", "");
-                setAddress(null);
-              } else {
-                const address = accounts[0];
-                setAddress(formatAddress(address));
-                set("address", formatAddress(address));
-                set("fullAddress", address);
-              }
-            });
           } catch (err) {
             await disconnectWallet();
             set("address", "");
